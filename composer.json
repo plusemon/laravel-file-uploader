@@ -1,0 +1,26 @@
+{
+    "name": "plusemon/uploader",
+    "description": "Laravel file upload helper package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Plusemon\\Uploader\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Plusemon\\Uploader\\UploaderServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "emon khan",
+            "email": "bdemon00@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
