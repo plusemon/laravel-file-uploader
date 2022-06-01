@@ -51,7 +51,7 @@ trait HasUploader
         }
         return $this;
     }
-    
+
     /**
      * Remove the specified resource from storage according to the model.
      * 
@@ -62,7 +62,7 @@ trait HasUploader
     public function deleteWith($property_name): bool
     {
         $file = public_path($this->$property_name);
-        if (file_exists($file)) {
+        if (is_file($file)) {
             unlink($file);
         }
         return $this->delete();
