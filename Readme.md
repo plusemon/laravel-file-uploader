@@ -4,7 +4,7 @@ The most esiest way to upload the model related file form the requset.
 
 # Install (Via Composer)
 ```bash
-composer require plusemo/uploader
+composer require plusemon/uploader
 ```
 
 # Usages
