@@ -35,8 +35,6 @@ trait HasUploader
      * @return \App\Models\User
      * 
      */
-
-
     public function uploadFromRequest($request_input_field_name, $file_type = 'image')
     {
         if (request()->hasFile($request_input_field_name)) {
@@ -52,5 +50,21 @@ trait HasUploader
             $this->$request_input_field_name = $saved ? $file_path : null;
         }
         return $this;
+    }
+    
+    /**
+     * Remove the specified resource from storage according to the model.
+     * 
+     * @param string $property_name
+     * @return bool
+     * 
+     */
+    public function deleteWith($property_name): bool
+    {
+        $file = public_path($this->$property_name);
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        return $this->delete();
     }
 }
