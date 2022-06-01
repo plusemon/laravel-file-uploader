@@ -71,6 +71,12 @@ if the file not exist on this dir or missing somehow then the noimage will show 
  <img src="{{ $user->urlOf('avater') ?? asset('images/no-image.png') }}">
 ```
 
+You can delete a model with particular file like this
+```php
+ $user->deleteWith('avater');
+````
+it will delete the model with the model file.
+
 Awesome right?
 
 If you like my works please star my repo.
