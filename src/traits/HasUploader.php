@@ -2,6 +2,8 @@
 
 namespace Plusemon\Uploader\traits;
 
+use Illuminate\Support\Str;
+
 /**
  * Name     :   Easy File Upload and View Helpers
  * Author   :   Emon Khan
@@ -19,10 +21,10 @@ trait HasUploader
      */
     public function urlOf($property_name)
     {
-        if ($this->$property_name and file_exists(public_path($this->$property_name))) {
+        if ($this->$property_name and is_file(public_path($this->$property_name))) {
             return asset($this->$property_name);
         }
-        return '';
+        return null;
     }
 
     /**
@@ -33,7 +35,9 @@ trait HasUploader
      * @return \App\Models\User
      * 
      */
-    public function uploadFromRequest($request_input_field_name, $file_type = 'images')
+
+
+    public function uploadFromRequest($request_input_field_name, $file_type = 'image')
     {
         if (request()->hasFile($request_input_field_name)) {
             $file = request()->file($request_input_field_name);
@@ -45,10 +49,7 @@ trait HasUploader
 
             $saved = $file->move(public_path($dir), $file_name);
             $file_path = $dir . $file_name;
-
-            if ($saved) {
-                $this->$request_input_field_name = $file_path;
-            }
+            $this->$request_input_field_name = $saved ? $file_path : null;
         }
         return $this;
     }
