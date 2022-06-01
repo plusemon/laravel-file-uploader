@@ -11,6 +11,7 @@ composer require plusemo/uploader
 use HasUploader trait on the model
 
 ```php
+
 <?php
 
 namespace App\Models;
@@ -26,12 +27,12 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, HasUploader;
     ...
 }
-
 ```
-In any where you can call UploadFromRequest with the request field name and file type(optional) then save the model.
+
+In any where you can call UploadFromRequest via model instance with the request field name and file type(optional) then save the model.
 ```php
  $user->uploadFromRequest('avater','images')->save();
----
+```
 
 ### done..!
 
@@ -44,16 +45,19 @@ if you need update the model file again.
 you just need to call the
 ```
 In any where you can call UploadFromRequest with the request field name and file type(optional) then save the model.
+
 ```php
  $user->uploadFromRequest('avater','images')->save();
----
+ ```
+
 it will
-  - delete the old
-  - upload the new file
+  - delete the old file from the storage
+  - upload the new file into the storage
   magically :)
 
 if you need to view the file form blade
-```blade
+
+```html
  <img src="{{ $user->urlOf('avater')">
 ```
 
@@ -61,6 +65,7 @@ it is easy or not?
 
 even you can 
 if the file not exist on this dir or missing somehow then the noimage will show there.
+
 ```blade
  <img src="{{ $user->urlOf('avater') ?? asset('images/no-image.png') }}">
 ```
