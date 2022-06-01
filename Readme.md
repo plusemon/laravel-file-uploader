@@ -37,18 +37,19 @@ In any where you can call UploadFromRequest via model instance with the request 
 ### done..!
 
 You have uploaded you file into 
+
 ```
 public/uploads/users/images/users-1-avater.jpg
 ```
 
 if you need update the model file again.
 you just need to call the
-```
+
 In any where you can call UploadFromRequest with the request field name and file type(optional) then save the model.
 
 ```php
  $user->uploadFromRequest('avater','images')->save();
- ```
+```
 
 it will
   - delete the old file from the storage
