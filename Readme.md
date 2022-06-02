@@ -1,5 +1,5 @@
 ## Laravel Model File Uploader package
-The most esiest way to upload the model related file form the requset.
+Easy way to upload laravel model related file from the requset.
 
 
 # Install (Via Composer)
