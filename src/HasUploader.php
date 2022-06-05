@@ -12,7 +12,22 @@ use Illuminate\Http\UploadedFile;
 trait HasUploader
 {
 
+    /**
+     * Uploaded files paths as an array.
+     * 
+     * @var array
+     * 
+     */
     public $uploadedPaths = [];
+
+
+    /**
+     * Request file input file field name
+     * 
+     * @var string
+     * 
+     */
+    public $requestFileField;
 
     /**
      * Generate the url for specific file related to the model
@@ -67,9 +82,9 @@ trait HasUploader
      * @return $this
      * 
      */
-    public function uploadRequestFiles($request_input_field_name)
+    public function uploadRequestFiles($input_file_array)
     {
-        $files = request()->file($request_input_field_name) ?? [];
+        $files = request()->file($input_file_array) ?? [];
         $this->uploadFiles($files);
         return $this;
     }
@@ -84,9 +99,11 @@ trait HasUploader
      */
     public function uploadRequestFile($request_file_field_name)
     {
+        $this->requestFileField = $request_file_field_name;
+
         if (request()->hasFile($request_file_field_name)) {
             $file = request()->file($request_file_field_name);
-            $this->$request_file_field_name =  $this->upload($file);
+            $this->requestFileField =  $this->upload($file);
         }
         return $this;
     }
@@ -110,10 +127,15 @@ trait HasUploader
      * @return bool
      * 
      */
-    public function saveInto($column, $saveAsArray = false)
+    public function saveInto($column = null, $saveAsArray = false)
     {
         if (count($this->uploadedPaths)) {
-            $this->$column = $saveAsArray ? $this->uploadedPaths : $this->uploadedPaths[0];
+
+            if (is_array($this->uploadedPaths)) {
+                
+            }
+
+            $this->$column = is_array($this->uploadedPaths) ? $this->uploadedPaths : $this->uploadedPaths[0];
             return  $this->save();
         }
         return false;
@@ -129,22 +151,22 @@ trait HasUploader
     public function saveAsArray($column)
     {
         if (count($this->uploadedPaths)) {
-            $this->$column = $this->uploadedPaths;
-            return  $this->save();
+            $this->$column = $recFileis->uploadedPaths;
+            return  $this->recFileave();
         }
         return false;
     }
 
 
     /**
-     * Get all the uploaded files path
+     * Get all the uploaded files path as array
      * 
      * @return array
      * 
      */
-    public function getUploadedPaths()
+    public function getUploadedFiles()
     {
-        return $this->uploadedPaths;
+        return $this->requestFileField;
     }
 
     /**
