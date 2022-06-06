@@ -18,7 +18,7 @@ trait HasUploader
      * @var array
      * 
      */
-    public $uploadedPaths = [];
+    public $uploaded_files = [];
 
 
     /**
@@ -27,7 +27,7 @@ trait HasUploader
      * @var string
      * 
      */
-    public $requestFileField;
+    public $request_input_field;
 
     /**
      * Generate the url for specific file related to the model
@@ -52,7 +52,7 @@ trait HasUploader
      * @return bool
      * 
      */
-    public function checkFileExists($column)
+    public function isFile($column)
     {
         return is_file(public_path($this->$column));
     }
@@ -82,10 +82,13 @@ trait HasUploader
      * @return $this
      * 
      */
-    public function uploadRequestFiles($input_file_array)
+    public function uploadRequestFiles($request_input_field)
     {
-        $files = request()->file($input_file_array) ?? [];
-        $this->uploadFiles($files);
+        $files = request()->file($request_input_field) ?? [];
+        if ($files) {
+            $this->request_input_field = $request_input_field;
+            $this->uploadFiles($files);
+        }
         return $this;
     }
 
@@ -97,26 +100,34 @@ trait HasUploader
      * @return \App\Models\User
      * 
      */
-    public function uploadRequestFile($request_file_field_name)
+    public function uploadRequestFile($request_input_field)
     {
-        $this->requestFileField = $request_file_field_name;
-
-        if (request()->hasFile($request_file_field_name)) {
-            $file = request()->file($request_file_field_name);
-            $this->requestFileField =  $this->upload($file);
+        if (request()->hasFile($request_input_field)) {
+            $this->request_input_field = $request_input_field;
+            $this->upload(request()->file($request_input_field));
         }
         return $this;
     }
 
-    public function upload(UploadedFile $file)
+
+    /**
+     * Upload a file on a a path
+     * 
+     * @param string $request_file_field_name
+     * @param string $type
+     * @return \App\Models\User
+     * 
+     */
+    public function upload(UploadedFile $file, $module_name = null, $file_type = 'images', $unique_id = null)
     {
-        $module_name =  $this->getTable();
-        $unique_id = uniqid();
+        $module_name = $module_name ?? $this->getTable();
+        $unique_id = $unique_id ?? uniqid();
+
         $file_name = "{$module_name}-{$unique_id}.{$file->extension()}";
-        $dir = "uploads/{$module_name}/";
+        $dir = "uploads/{$module_name}/{$file_type}/";
         $file_path = $dir . $file_name;
         $file->move(public_path($dir), $file_name);
-        array_push($this->uploadedPaths, $file_path);
+        array_push($this->uploaded_files, $file_path);
         return $this;
     }
 
@@ -129,30 +140,9 @@ trait HasUploader
      */
     public function saveInto($column = null, $saveAsArray = false)
     {
-        if (count($this->uploadedPaths)) {
-
-            if (is_array($this->uploadedPaths)) {
-                
-            }
-
-            $this->$column = is_array($this->uploadedPaths) ? $this->uploadedPaths : $this->uploadedPaths[0];
+        if (count($this->uploaded_files)) {
+            $this->$column = is_array($this->uploaded_files) ? $this->uploaded_files : $this->uploaded_files[0];
             return  $this->save();
-        }
-        return false;
-    }
-
-    /**
-     * Save the particular files path into the model property
-     * 
-     * @param string $column
-     * @return bool
-     * 
-     */
-    public function saveAsArray($column)
-    {
-        if (count($this->uploadedPaths)) {
-            $this->$column = $recFileis->uploadedPaths;
-            return  $this->recFileave();
         }
         return false;
     }
@@ -166,7 +156,7 @@ trait HasUploader
      */
     public function getUploadedFiles()
     {
-        return $this->requestFileField;
+        return $this->uploaded_files;
     }
 
     /**
