@@ -17,7 +17,7 @@ use HasUploader trait on the model
 namespace App\Models;
 
 ...
-use Plusemon\Uploader\traits\HasUploader;
+use Plusemon\Uploader\HasUploader;
 
 class User extends Authenticatable
 {
