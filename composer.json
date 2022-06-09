@@ -1,6 +1,6 @@
 {
     "name": "plusemon/uploader",
-    "description": "Laravel file upload helper package.",
+    "description": "Laravel model file upload helper package.",
     "type": "library",
     "license": "MIT",
     "autoload": {
