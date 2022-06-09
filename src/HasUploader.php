@@ -140,8 +140,9 @@ trait HasUploader
      */
     public function saveInto($column = null, $saveAsArray = false)
     {
+        $column_name = $column ?? $this->request_input_field;
         if (count($this->uploaded_files)) {
-            $this->$column = is_array($this->uploaded_files) ? $this->uploaded_files : $this->uploaded_files[0];
+            $this->$column_name = $saveAsArray ? $this->uploaded_files : $this->uploaded_files[0];
             return  $this->save();
         }
         return false;

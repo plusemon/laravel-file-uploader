@@ -11,13 +11,13 @@
     "extra": {
         "laravel": {
             "providers": [
-                "plusemon\\uploader\\UploaderServiceProvider"
+                "Plusemon\\Uploader\\UploaderServiceProvider"
             ]
         }
     },
     "authors": [
         {
-            "name": "emon khan",
+            "name": "Emon Khan",
             "email": "bdemon00@gmail.com"
         }
     ],
