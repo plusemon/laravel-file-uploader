@@ -1,6 +1,6 @@
 <?php
 
-namespace Plusemon\Uploader\traits;
+namespace Plusemon\Uploader;
 
 use Illuminate\Http\UploadedFile;
 

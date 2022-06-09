@@ -5,13 +5,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Plusemon\\Uploader\\": "src/"
+            "plusemon\\uploader\\": "src\\"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Plusemon\\Uploader\\UploaderServiceProvider"
+                "plusemon\\uploader\\UploaderServiceProvider"
             ]
         }
     },
