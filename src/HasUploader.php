@@ -148,6 +148,31 @@ trait HasUploader
         return false;
     }
 
+    /**
+     * Save the particular file path into the model property and delete the old resource
+     * 
+     * @param string $column
+     * @return bool
+     * 
+     */
+    public function updateInto($column = null)
+    {
+        $column_name = $column ?? $this->request_input_field;
+
+        // remove old res
+
+        $file = public_path($this->$column_name);
+        if (is_file($file)) {
+            unlink($file);
+        }
+
+        if (count($this->uploaded_files)) {
+            $this->$column_name = $this->uploaded_files[0];
+            return  $this->save();
+        }
+        return false;
+    }
+
 
     /**
      * Get all the uploaded files path as array
@@ -170,9 +195,7 @@ trait HasUploader
     public function deleteWith($column): bool
     {
         $file = public_path($this->$column);
-        if (is_file($file)) {
-            unlink($file);
-        }
+        if (is_file($file)) unlink($file);
         return $this->delete();
     }
 }
