@@ -97,7 +97,7 @@ trait HasUploader
      * 
      * @param string $request_file_field_name
      * @param string $type
-     * @return \App\Models\User
+     * @return \Plusemon\Uploader\HasUploader
      * 
      */
     public function uploadRequestFile($request_input_field)
@@ -115,7 +115,7 @@ trait HasUploader
      * 
      * @param string $request_file_field_name
      * @param string $type
-     * @return \App\Models\User
+     * @return \Plusemon\Uploader\HasUploader
      * 
      */
     public function upload(UploadedFile $file, $module_name = null, $file_type = 'images', $unique_id = null)
@@ -149,7 +149,7 @@ trait HasUploader
     }
 
     /**
-     * Save the particular file path into the model property and delete the old resource
+     * Update the particular file path into the model property
      * 
      * @param string $column
      * @return bool
