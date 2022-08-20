@@ -48,14 +48,19 @@ it will
   - upload the new file into the storage
   magically :)
 
+
 Generate file url:
 ```html
  <img src="{{ $user->urlOf('avater')">
 ```
 
-Delete a file:
+Delete a model / file:
 ```php
- $user->deleteWith('avater');
+// delete only file
+$user->deleteFile('avater');
+
+// or delete model and file
+ $user->deleteWithFile('avater');
 ````
 it will delete the model with the model related file also :).
 
@@ -70,7 +75,7 @@ Multiple file upload:
 
 Tip: if the file not exist on this dir or missing somehow then the noimage will show there.
 ```html
- <img src="{{ $user->urlOf('avater') ?? asset('assets/images/no-image-placeholder.png') }}">
+ <img src="{{ $user->urlOf('avater') }}">
 ```
 
 Awesome right?
