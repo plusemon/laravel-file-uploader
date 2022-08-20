@@ -22,6 +22,15 @@ trait HasUploader
 
 
     /**
+     * name of the model.
+     * 
+     * @var array
+     * 
+     */
+    public $model_name;
+
+
+    /**
      * Request file input file field name
      * 
      * @var string
@@ -120,11 +129,14 @@ trait HasUploader
      */
     public function upload(UploadedFile $file, $module_name = null, $file_type = 'images', $unique_id = null)
     {
-        $module_name = $module_name ?? $this->getTable();
+        $model_name = $model_name ?? $this->getTable();
+
+        $this->model_name = $model_name;
+
         $unique_id = $unique_id ?? uniqid();
 
-        $file_name = "{$module_name}-{$unique_id}.{$file->extension()}";
-        $dir = "uploads/{$module_name}/{$file_type}/";
+        $file_name = "{$model_name}-{$unique_id}.{$file->extension()}";
+        $dir = "uploads/{$model_name}/{$file_type}/";
         $file_path = $dir . $file_name;
         $file->move(public_path($dir), $file_name);
         array_push($this->uploaded_files, $file_path);
@@ -186,6 +198,36 @@ trait HasUploader
     }
 
     /**
+     * Remove the specified resource from storage according of the model.
+     * 
+     * @param string $column
+     * @return \Plusemon\Uploader\HasUploader
+     * 
+     */
+    public function deleteFile($column)
+    {
+        $file = public_path($this->$column);
+        if (is_file($file)) return unlink($file);
+        return false;
+    }
+
+    /**
+     * Remove the specified resource from storage according to the model.
+     * 
+     * @param string $column
+     * @return bool
+     * 
+     */
+    public function deleteWithFile($column): bool
+    {
+        $this->deleteFile($column);
+        return $this->delete();
+    }
+
+
+    // alieses
+
+    /**
      * Remove the specified resource from storage according to the model.
      * 
      * @param string $column
@@ -194,8 +236,6 @@ trait HasUploader
      */
     public function deleteWith($column): bool
     {
-        $file = public_path($this->$column);
-        if (is_file($file)) unlink($file);
-        return $this->delete();
+        return $this->deleteWithFile($column);
     }
 }
