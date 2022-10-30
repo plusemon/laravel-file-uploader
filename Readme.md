@@ -8,6 +8,13 @@ composer require plusemon/uploader
 ```
 
 # Usages
+
+
+```php
+ $product->uploadRequestFile('image')->resize($width, $height, $callback)->saveInto('thumbnail');
+```
+
+# Usages Menuals
 use HasUploader trait on the model
 
 ```php
@@ -28,19 +35,11 @@ class User extends Authenticatable
 
 Upload files from the request input.
 
-```php
-// single file
- $user->uploadRequestFile('user_avater')->saveInto('profile_picture');
-```
-
-You have uploaded you file into: 
-```
-/public/uploads/users/images/users-1-avater.jpg
-```
-
 if you need update the model file again
 ```php
- $user->uploadRequestFile('user_avater')->saveInto('profile_picture');
+ $user->uploadRequestFile('user_image')->saveInto('profile_picture');
+
+ // You have uploaded you file into:  /public/uploads/users/images/users-1-image.jpg
 ```
 
 it will
@@ -51,16 +50,16 @@ it will
 
 Generate file url:
 ```html
- <img src="{{ $user->urlOf('avater')">
+ <img src="{{ $user->urlOf('image')">
 ```
 
 Delete a model / file:
 ```php
 // delete only file
-$user->deleteFile('avater');
+$user->deleteFile('image');
 
 // or delete model and file
- $user->deleteWithFile('avater');
+ $user->deleteWithFile('image');
 ````
 it will delete the model with the model related file also :).
 
@@ -68,14 +67,14 @@ it will delete the model with the model related file also :).
 Multiple file upload:
 ```php
  // multiple files
-  $user->uploadRequestFiles('user_avater')->getUploadedFiles();
+  $user->uploadRequestFiles('user_image')->getUploadedFiles();
   // it will return you an array of uploaded file path.
 ```
 
 
 Tip: if the file not exist on this dir or missing somehow then the noimage will show there.
 ```html
- <img src="{{ $user->urlOf('avater') }}">
+ <img src="{{ $user->urlOf('image') }}">
 ```
 
 Awesome right?
