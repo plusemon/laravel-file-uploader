@@ -3,6 +3,7 @@
 namespace Plusemon\Uploader;
 
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\Facades\Image;
 
 /**
  * Name     :   Easy File Upload and View Helpers
@@ -237,5 +238,20 @@ trait HasUploader
     public function deleteWith($column): bool
     {
         return $this->deleteWithFile($column);
+    }
+
+    /**
+     * Resizes current image based on given width and/or height. To contraint the resize command, pass an optional Closure callback as third parameter.
+     * 
+     *  @param int $width
+     * @param int $height
+     * @param \Closure $callback
+     * @return \Plusemon\Uploader\HasUploader
+     */
+
+    public function resize($width = null, $height = null, $callback = null)
+    {
+        Image::make($this->uploaded_files[0])->resize($width, $height, $callback)->save();
+        return $this;
     }
 }
