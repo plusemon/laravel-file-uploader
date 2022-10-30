@@ -21,7 +21,9 @@
             "email": "bdemon00@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "intervention/image": "^2.7"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
