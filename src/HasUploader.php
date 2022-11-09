@@ -251,7 +251,9 @@ trait HasUploader
 
     public function resize($width = null, $height = null, $callback = null)
     {
-        Image::make($this->uploaded_files[0])->resize($width, $height, $callback)->save();
+        foreach ($this->uploaded_files ?? [] as $item) {
+            Image::make($item)->resize($width, $height, $callback)->save();
+        }
         return $this;
     }
 }
