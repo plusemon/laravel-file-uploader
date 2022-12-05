@@ -110,11 +110,17 @@ trait HasUploader
      * @return \Plusemon\Uploader\HasUploader
      * 
      */
-    public function uploadRequestFile($request_input_field)
+    public function uploadRequestFile($request_input_field, $saveInto = null)
     {
         if (request()->hasFile($request_input_field)) {
             $this->request_input_field = $request_input_field;
             $this->upload(request()->file($request_input_field));
+
+            if (count($this->uploaded_files)) {
+                !$saveInto ?
+                    $this->$request_input_field = $this->uploaded_files[0] :
+                    $this->$saveInto = $this->uploaded_files[0];
+            }
         }
         return $this;
     }
@@ -132,7 +138,7 @@ trait HasUploader
     {
         $model_name = $model_name ?? $this->getTable();
 
-        $this->model_name = $model_name;
+        $this->model_name = $module_name ?? $model_name;
 
         $unique_id = $unique_id ?? uniqid();
 
@@ -156,9 +162,21 @@ trait HasUploader
         $column_name = $column ?? $this->request_input_field;
         if (count($this->uploaded_files)) {
             $this->$column_name = $saveAsArray ? $this->uploaded_files : $this->uploaded_files[0];
-            return  $this->save();
+            return $this->save();
         }
         return false;
+    }
+
+    /**
+     * Save the files as array into the model property
+     * 
+     * @param string $column
+     * @return bool
+     * 
+     */
+    public function saveAsArrayInto($column = null)
+    {
+        return $this->saveInto($column, true);
     }
 
     /**
@@ -175,9 +193,7 @@ trait HasUploader
         // remove old res
 
         $file = public_path($this->$column_name);
-        if (is_file($file)) {
-            unlink($file);
-        }
+        if (is_file($file))  unlink($file);
 
         if (count($this->uploaded_files)) {
             $this->$column_name = $this->uploaded_files[0];
@@ -238,6 +254,17 @@ trait HasUploader
     public function deleteWith($column): bool
     {
         return $this->deleteWithFile($column);
+    }
+
+    /**
+     * Convert the file into Intervention\Image class
+     * 
+     * @return Intervention\Image\Facades\Image
+     */
+
+    public function image()
+    {
+        return count($this->uploaded_files) ? Image::make(public_path($this->uploaded_files[0])) : false;
     }
 
     /**
