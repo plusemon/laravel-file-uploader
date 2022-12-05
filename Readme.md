@@ -1,4 +1,4 @@
-## Laravel Model File Uploader package
+## Laravel Model Easy File Uploader
 Easy way to upload laravel model related file from the requset.
 
 
