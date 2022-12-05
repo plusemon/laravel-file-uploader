@@ -2,7 +2,7 @@
 Easy way to upload laravel model related file from the requset.
 
 
-# Basic Examples
+## Basic Examples
 
 ```php
 
@@ -47,7 +47,7 @@ $product->upload($request->file('image'), $module_name = 'products', $file_type 
 
 ```
 
-# Installation
+## Installation
 ```bash
 composer require plusemon/uploader
 ```
