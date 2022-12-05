@@ -71,7 +71,10 @@ class Product extends Product
 ### You are ready to go... :)
 
 
-Awesome right?
+## Contributing
 
-If you like my works don't forget to give a star.
-Thanks.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
