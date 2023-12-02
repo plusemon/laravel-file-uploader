@@ -60,8 +60,9 @@ use HasUploader trait on the dedicated model
 
 namespace App\Models;
 use Plusemon\Uploader\HasUploader;
+use Illuminate\Database\Eloquent\Model;
 
-class Product extends Product
+class Product extends Model
 {
     use HasUploader;
 }
